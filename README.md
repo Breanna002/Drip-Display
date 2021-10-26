@@ -97,10 +97,74 @@ Search Screen
 ### [BONUS] Interactive Prototype
 
 ## Schema 
-[This section will be completed in Unit 9]
 ### Models
-[Add table of models]
+User:
+
+| Property        | Type                   | Description                 |
+| --------------- | ---------------------- | --------------------------- |
+| UserID          | String                 | Unique ID for specific user |
+| Username  | String | User created user name                            |
+| Password        | String                 | User created password       |
+| Email           | String                 | User given email address    |
+| FirstName       | String                 | User given first name       |
+| LastName        | String                 | User given lst name         |
+
+
+Post:
+
+| Property      | Type    | Description                          |
+| ------------- | ------- | ------------------------------------ |
+| PostId | String |ID of a specific post   |
+| Author |Pointer to User | Image author |
+| Date   |DateTime | Date & Time when post was created           |
+| Image  | File    | Image that user posts                |
+| Caption| String  | User caption for post                |
+| LikesCount    | Number  | Number of likes on a post            |
+| CommentsCount | Number  | Number of comments on a post         |
+| Tags | Pointer | The tags that users insert for sales |
+
+Tags:
+
+
+|Property    | Type        | Description                                             |
+| ----------- | --------------- | ---------------------------------------------------- |
+| TagId       | String          | ID of specific tag added to post                     |
+| Parent      | Pointer to Post | Post that tag is connected to                        |
+| Image       | File            | User uploaded image of specific item being displayed |
+| Description | String          | User description of tagged item                      |
+| Link        | String          | Link to where tagged item can be purchased           |
+
+
 ### Networking
-- [Add list of network requests by screen ]
-- [Create basic snippets for each Parse network request]
+Home Feed Screen
+* (Read/GET) Query all posts where user is author
+
+let query = PFQuery(className:"Post")
+query.whereKey("author", equalTo: currentUser)
+query.order(byDescending: "createdAt")
+query.findObjectsInBackground { (posts: [PFObject]?, error: Error?) in
+   if let error = error { 
+      print(error.localizedDescription)
+   } else if let posts = posts {
+      print("Successfully retrieved \(posts.count) posts.")
+  // TODO: Do something with posts...
+   }
+}
+* (Create/POST) Create a new like on a post
+* (Delete) Delete existing like
+* (Create/POST) Create a new comment on a post
+* (Delete) Delete existing comment
+
+Create Post Screen
+* (Create/POST) Create a new post object
+* (Create/POST) Create a new Caption
+* (Create/POST) Create a new tag for item
+* (Delete) Delete existing tag 
+* (Search/Get) Search item/ people
+
+Profile Screen
+* (Read/GET) Query logged in user object
+* (Update/PUT) Update user profile image
+* (Update/PUT) update username
+* (Create/PUT) Create password
 - [OPTIONAL: List endpoints if using existing API such as Yelp]
