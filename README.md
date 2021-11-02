@@ -30,14 +30,14 @@ Fashion blogging app created for users to post, buy, and sell different fashion/
 **Required Must-have Stories**
 
 [x] User can create an account
-[x]User can login 
-3. User can logout
-4. User can post fashion items
-5. User can follow other users 
-6. User can access fashion item website
-7. User can tag other users pages
-8. User can comment on other users post
-9. User can like other users photos 
+[x] User can login
+[] User can logout
+[] User can post fashion items
+[] User can follow other users 
+[] User can access fashion item website
+[] User can tag other users pages
+[] User can comment on other users post
+[] User can like other users photos 
 
 **Optional Nice-to-have Stories**
 
