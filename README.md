@@ -31,6 +31,10 @@ Fashion blogging app created for users to post, buy, and sell different fashion/
 
 - [x] User can create an account
 - [x] User can login
+Here's a walkthrough of implemented user stories:
+
+<img src= 'https://github.com/Breanna002/Drip-Display/blob/main/Seminar1stGif.gif' title='Video Walkthrough' width='' alt='Video Walkthrough' />
+
 - [] User can logout
 - [] User can post fashion items
 - [] User can follow other users 
