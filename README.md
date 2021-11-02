@@ -29,8 +29,8 @@ Fashion blogging app created for users to post, buy, and sell different fashion/
 
 **Required Must-have Stories**
 
-1. User can create an account
-2. User can login 
+[x] User can create an account
+[x]User can login 
 3. User can logout
 4. User can post fashion items
 5. User can follow other users 
