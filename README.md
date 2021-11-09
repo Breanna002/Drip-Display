@@ -35,7 +35,7 @@ Here's a walkthrough of implemented user stories:
 
 <img src= 'https://github.com/Breanna002/Drip-Display/blob/main/Seminar1stGif.gif' title='Video Walkthrough' width='' alt='Video Walkthrough' />
 
-- [] User can logout
+- [X] User can logout
 - [] User can post fashion items
 - [] User can follow other users 
 - [] User can access fashion item website
