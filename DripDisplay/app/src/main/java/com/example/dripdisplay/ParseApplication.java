@@ -8,12 +8,14 @@ import com.parse.ParseObject;
 public class ParseApplication extends Application {
     @Override
     public void onCreate() {
+
+        ParseObject.registerSubclass(Post.class);
         super.onCreate();
         // Register your parse models
 
         Parse.initialize(new Parse.Configuration.Builder(this)
-                .applicationId("uHk9w4Hmmq3wH78qaQEAqZFLENIQ5qEsGncVnJXP")
-                .clientKey("6gQSvkSr8NO7aF767ypecrWvZtwb8W6pieHw4xal")
+                .applicationId("YyXWDcOT35QDLfj9BNZ2wA64EfKtmMto0oMFmCXT")
+                .clientKey("Ly2ArkFzha3ylLtteko2lGJxjaTxkaHwXSdzYZmu")
                 .server("https://parseapi.back4app.com")
                 .build()
         );
