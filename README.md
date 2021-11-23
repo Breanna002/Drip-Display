@@ -40,10 +40,12 @@ Here's a walkthrough of implemented user stories:
 <img src= 'https://github.com/Breanna002/Drip-Display/blob/main/Seminar2ndGif.gif' title='Video Walkthrough' width='' alt='Video Walkthrough' />
 - [x] User can tag items in photos
 <img src = 'https://github.com/Breanna002/Drip-Display/blob/main/Seminar3rdGif.gif' title= 'Video Walkthrough' width= '' alt= 'Video Walkthrough' />
+- [x] User can like other users photos
+<img src = 'https://github.com/Breanna002/Drip-Display/blob/main/Seminar4thGif.gif' title= 'Video Walkthrough' width= '' alt= 'Video Walkthrough' />
 - [] User can follow other users 
 - [] User can access fashion item website
 - [] User can comment on other users post
-- [] User can like other users photos 
+
 
 **Optional Nice-to-have Stories**
 
