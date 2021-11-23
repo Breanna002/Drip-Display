@@ -21,10 +21,16 @@
         android:layout_height="wrap_content"
         android:text="Take Picture" />
 
+    <Button
+        android:id="@+id/btnUpload"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Upload from Gallery" />
+
     <ImageView
         android:id="@+id/ivPostImage"
         android:layout_width="match_parent"
-        android:layout_height="200dp"
+        android:layout_height="300dp"
         android:text="@tools:sample/avatars" />
 
     <EditText

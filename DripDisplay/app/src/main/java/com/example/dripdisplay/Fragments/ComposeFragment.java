@@ -5,7 +5,9 @@ import static android.app.Activity.RESULT_OK;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.ImageDecoder;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -32,16 +34,19 @@ import com.parse.ParseUser;
 import com.parse.SaveCallback;
 
 import java.io.File;
+import java.io.IOException;
 
 public class ComposeFragment extends Fragment{
 
     public static final String TAG ="ComposeFragment";
     public static final int CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE = 42;
+    public final static int PICK_PHOTO_CODE = 43;
     private EditText etDescription;
     private Button btnCaptureImage;
     private ImageView ivPostImage;
     private Button btnSubmit;
     private EditText etTag;
+    private Button btnUpload;
 
     private File photoFile;
     public String photoFileName = "photo.jpg";
@@ -69,9 +74,7 @@ public class ComposeFragment extends Fragment{
         btnCaptureImage = view.findViewById(R.id.btnCaptureImage);
         ivPostImage = view.findViewById(R.id.ivPostImage);
         btnSubmit = view.findViewById(R.id.btnSubmit);
-
-
-
+        btnUpload = view.findViewById(R.id.btnUpload);
 
         btnCaptureImage.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -80,6 +83,10 @@ public class ComposeFragment extends Fragment{
             }
         });
 
+        btnUpload.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) { onPickPhoto(); }
+        });
         //queryPosts();
         btnSubmit.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -102,8 +109,40 @@ public class ComposeFragment extends Fragment{
                 savePost(description, tag, currentUser, photoFile);
             }
         });
-
     }
+
+    public void onPickPhoto(){
+        // Create intent for picking a photo from the gallery
+        Intent intent = new Intent(Intent.ACTION_PICK,
+                MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+
+        // If you call startActivityForResult() using an intent that no app can handle, your app will crash.
+        // So as long as the result is not null, it's safe to use the intent.
+        if (intent.resolveActivity(getContext().getPackageManager()) != null) {
+            // Bring up gallery to select a photo
+            startActivityForResult(intent, PICK_PHOTO_CODE);
+        }
+    }
+
+    public Bitmap loadFromUri(Uri photoUri) {
+        Bitmap photoFile = null;
+        try {
+            // check version of Android on device
+            if(Build.VERSION.SDK_INT > 27){
+                // on newer versions of Android, use the new decodeBitmap method
+                ImageDecoder.Source source = ImageDecoder.createSource(this.getContext().getContentResolver(), photoUri);
+                photoFile = ImageDecoder.decodeBitmap(source);
+            } else {
+                // support older versions of Android by using getBitmap
+                photoFile = MediaStore.Images.Media.getBitmap(this.getContext().getContentResolver(), photoUri);
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return photoFile;
+    }
+
+
     private void launchCamera() {
         // create Intent to take a picture and return control to the calling application
         Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
@@ -178,6 +217,5 @@ public class ComposeFragment extends Fragment{
             }
         });
     }
-
 
 }
