@@ -46,7 +46,7 @@ Here's a walkthrough of implemented user stories:
 - [] User can access fashion item website
 - [] User can comment on other users post
 
-APP Full-Functionality:
+**APP Full-Functionality**
 <img src = 'https://github.com/Breanna002/Drip-Display/blob/main/Seminar5thGif.gif' title= 'Video Walkthrough' width= '' alt= 'Video Walkthrough' />
 
 **Optional Nice-to-have Stories**
