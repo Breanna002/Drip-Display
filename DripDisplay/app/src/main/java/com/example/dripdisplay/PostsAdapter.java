@@ -1,6 +1,10 @@
 package com.example.dripdisplay;
 
+import static java.security.AccessController.getContext;
+
+import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -10,9 +14,16 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentActivity;
+import androidx.fragment.app.FragmentHostCallback;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
+import com.example.dripdisplay.Fragments.CommentFragment;
 import com.parse.ParseException;
 import com.parse.ParseFile;
 import com.parse.ParseObject;
@@ -29,6 +40,9 @@ public class PostsAdapter extends RecyclerView.Adapter<PostsAdapter.ViewHolder>{
     public Integer likes;
     public ParseUser currentUser = ParseUser.getCurrentUser();
     public Boolean likeChecker = false;
+    Fragment fragment;
+
+
     public PostsAdapter(Context context, List<Post> posts){
         this.context = context;
         this.posts = posts;
@@ -59,7 +73,8 @@ public class PostsAdapter extends RecyclerView.Adapter<PostsAdapter.ViewHolder>{
         private TextView tvDescription;
         private TextView tvTag;
         private ImageView ivProfile;
-        private ImageView ibLike;
+        private ImageButton ibLike;
+        private ImageButton ibComment;
         private TextView tvLikes;
 
         public ViewHolder(@NonNull View itemView) {
@@ -72,6 +87,8 @@ public class PostsAdapter extends RecyclerView.Adapter<PostsAdapter.ViewHolder>{
             ivProfile = itemView.findViewById(R.id.ivProfile);
             ibLike = itemView.findViewById(R.id.ibLike);
             tvLikes= itemView.findViewById(R.id.tvLikes);
+            ibComment= itemView.findViewById(R.id.ibComment);
+
 
         }
 
@@ -92,49 +109,71 @@ public class PostsAdapter extends RecyclerView.Adapter<PostsAdapter.ViewHolder>{
                 Glide.with(context).load(post.getImage().getUrl()).into(ivImage);
             }
 
+            ibComment.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    goCommentFrag();
+                }
+            });
+
             ibLike.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                   if (likeChecker == false)
-                   {
-                       likeChecker = true;
-                       likes += 1;
-                       post.setLikes(likes);
-                       tvLikes.setText(String.valueOf(likes));
-                       post.saveInBackground(new SaveCallback() {
-                           @Override
-                           public void done(ParseException e) {
-                               if (e != null) {
-                                   Log.e(TAG, "Error while saving", e);
-                               }
-                               Log.i(TAG, "Post was save successful!");
-                                post.setLikes(likes);
-                           }
-                       });
-                       ibLike.setImageResource(R.drawable.ic_like_icon);
-                   }
-                    else {
-                        likeChecker = false;
-                        likes -= 1;
-                        post.setLikes(likes);
-                        tvLikes.setText(String.valueOf(likes));
-                        post.saveInBackground(new SaveCallback() {
-                            @Override
-                            public void done(ParseException e) {
-                                if (e != null) {
-                                    Log.e(TAG, "Error while saving", e);
+
+
+                        Integer currentLikes = post.getLikes();
+                        if (likeChecker == false) {
+                            likeChecker = true;
+                            currentLikes += 1;
+                            post.setLikes(currentLikes);
+                            tvLikes.setText(String.valueOf(currentLikes));
+                            likes = currentLikes;
+                            post.saveInBackground(new SaveCallback() {
+                                @Override
+                                public void done(ParseException e) {
+                                    if (e != null) {
+                                        Log.e(TAG, "Error while saving", e);
+                                    }
+                                    Log.i(TAG, "Post was save successful!");
+                                    post.setLikes(likes);
                                 }
-                                Log.i(TAG, "Post was save successful!");
-                                post.setLikes(likes);
-                            }
-                        });
-                        ibLike.setImageResource(R.drawable.ic_dislike_icon);
+                            });
+                            ibLike.setImageResource(R.drawable.ic_like_icon);
+                        } else {
+                            likeChecker = true;
+                            currentLikes -= 1;
+                            post.setLikes(currentLikes);
+                            tvLikes.setText(String.valueOf(currentLikes));
+                            likes = currentLikes;
+                            post.saveInBackground(new SaveCallback() {
+                                @Override
+                                public void done(ParseException e) {
+                                    if (e != null) {
+                                        Log.e(TAG, "Error while saving", e);
+                                    }
+                                    Log.i(TAG, "Post was save successful!");
+                                    post.setLikes(likes);
+                                }
+                            });
+                            likeChecker = false;
+                            ibLike.setImageResource(R.drawable.ic_dislike_icon);
+                        }
                     }
-                }
+
 
             });
 
+
+
         }
+
+        private void goCommentFrag() {
+            fragment = new CommentFragment();
+            ((FragmentActivity)context).getSupportFragmentManager().beginTransaction()
+                    .replace(R.id.flContainer, fragment)
+                    .commit();
+        }
+
 
     }
 }

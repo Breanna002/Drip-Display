@@ -8,9 +8,11 @@
         <entry key="..\:/Users/Student/AndroidStudioProjects/DripDisplay/app/src/main/res/layout/activity_login.xml" value="0.33" />
         <entry key="..\:/Users/Student/AndroidStudioProjects/DripDisplay/app/src/main/res/layout/activity_main.xml" value="0.22" />
         <entry key="..\:/Users/Student/AndroidStudioProjects/DripDisplay/app/src/main/res/layout/activity_sign_up.xml" value="0.20416666666666666" />
+        <entry key="..\:/Users/Student/AndroidStudioProjects/DripDisplay/app/src/main/res/layout/fragment_comment.xml" value="0.21" />
         <entry key="..\:/Users/Student/AndroidStudioProjects/DripDisplay/app/src/main/res/layout/fragment_compose.xml" value="0.25" />
         <entry key="..\:/Users/Student/AndroidStudioProjects/DripDisplay/app/src/main/res/layout/fragment_posts.xml" value="0.20416666666666666" />
         <entry key="..\:/Users/Student/AndroidStudioProjects/DripDisplay/app/src/main/res/layout/fragment_profile.xml" value="0.33" />
+        <entry key="..\:/Users/Student/AndroidStudioProjects/DripDisplay/app/src/main/res/layout/item_comment.xml" value="0.33" />
         <entry key="..\:/Users/Student/AndroidStudioProjects/DripDisplay/app/src/main/res/layout/item_post.xml" value="0.20416666666666666" />
         <entry key="..\:/Users/Student/AndroidStudioProjects/DripDisplay/app/src/main/res/menu/menu_bottom_navigation.xml" value="0.20416666666666666" />
         <entry key="..\:/Users/Student/AndroidStudioProjects/DripDisplay/app/src/main/res/xml/fileprovider.xml" value="0.1" />

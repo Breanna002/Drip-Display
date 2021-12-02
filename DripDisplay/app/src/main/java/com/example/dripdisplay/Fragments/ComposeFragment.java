@@ -34,6 +34,7 @@ import com.parse.ParseUser;
 import com.parse.SaveCallback;
 
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 
 public class ComposeFragment extends Fragment{
@@ -41,6 +42,7 @@ public class ComposeFragment extends Fragment{
     public static final String TAG ="ComposeFragment";
     public static final int CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE = 42;
     public final static int PICK_PHOTO_CODE = 43;
+    private static final int GET_FROM_GALLERY = 44 ;
     private EditText etDescription;
     private Button btnCaptureImage;
     private ImageView ivPostImage;
@@ -111,18 +113,7 @@ public class ComposeFragment extends Fragment{
         });
     }
 
-    public void onPickPhoto(){
-        // Create intent for picking a photo from the gallery
-        Intent intent = new Intent(Intent.ACTION_PICK,
-                MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
 
-        // If you call startActivityForResult() using an intent that no app can handle, your app will crash.
-        // So as long as the result is not null, it's safe to use the intent.
-        if (intent.resolveActivity(getContext().getPackageManager()) != null) {
-            // Bring up gallery to select a photo
-            startActivityForResult(intent, PICK_PHOTO_CODE);
-        }
-    }
 
     public Bitmap loadFromUri(Uri photoUri) {
         Bitmap photoFile = null;
@@ -142,6 +133,17 @@ public class ComposeFragment extends Fragment{
         return photoFile;
     }
 
+    public void onPickPhoto(){
+        // create an instance of the
+        // intent of the type image
+        Intent i = new Intent();
+        i.setType("image/*");
+        i.setAction(Intent.ACTION_GET_CONTENT);
+
+        // pass the constant to compare it
+        // with the returned requestCode
+        startActivityForResult(Intent.createChooser(i, "Select Picture"), GET_FROM_GALLERY);
+    }
 
     private void launchCamera() {
         // create Intent to take a picture and return control to the calling application
@@ -166,14 +168,27 @@ public class ComposeFragment extends Fragment{
     @Override
     public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE) {
-            if (resultCode == RESULT_OK) {
+
+        if (resultCode == RESULT_OK) {
+            if (requestCode == CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE) {
                 // by this point we have the camera photo on disk
                 Bitmap takenImage = BitmapFactory.decodeFile(photoFile.getAbsolutePath());
                 // RESIZE BITMAP, see section below
                 // Load the taken image into a preview
                 ivPostImage.setImageBitmap(takenImage);
-            } else { // Result was a failure
+            }
+            else if (requestCode == GET_FROM_GALLERY){
+                Uri selectedImage = data.getData();
+                // update the preview image in the layout
+                try {
+                       Bitmap takenImage = MediaStore.Images.Media.getBitmap(this.getContext().getContentResolver(), selectedImage);
+                       ivPostImage.setImageBitmap(takenImage);
+                } catch (IOException e) {
+                        e.printStackTrace();
+                }
+            }
+
+            else { // Result was a failure
                 Toast.makeText(getContext(), "Picture wasn't taken!", Toast.LENGTH_SHORT).show();
             }
         }
